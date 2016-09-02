@@ -9,8 +9,18 @@
 #import "IndustriesViewController.h"
 #import "IndustriesTableViewCell.h"
 #import "ExamViewController.h"
+#import "ExamViewController.h"
+#import "Define.h"
+#import "CommonMethods.h"
+#import "AppDelegate.h"
+#import "APIMaster.h"
+#import "MBProgressHUD.h"
+#import "SingleTonClasses.h"
+#import "SingleTonClasses.h"
+#import "ConnectsVC.h"
+#import "SettingsVC.h"
 
-@interface IndustriesViewController ()
+@interface IndustriesViewController ()<APIMasterDelegate>
 
 @end
 
@@ -18,10 +28,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBarHidden=YES;
     self.viewtbl.layer.borderWidth = 2.0f;
     self.viewtbl.layer.borderColor =[UIColor grayColor].CGColor;
-
-    arrayIndustries =[[NSArray alloc]initWithObjects:@"business",@"technology",@"web design",@"web development",@"marketing",@"seo",@"graphic design",@"video creation",@"animation", nil];
+    
+    
+   // arrayIndustries =[[NSArray alloc]initWithObjects:@"business",@"technology",@"web design",@"web development",@"marketing",@"seo",@"graphic design",@"video creation",@"animation", nil];
+    NSLog(@"userid-%@",[CommonMethods accessUserDefaultsWithKey:kUserId]);
     
     if ([[[UIDevice currentDevice]systemVersion]floatValue] >= 9.0)
     {
@@ -30,15 +43,24 @@
     
     UINib *cellNib = [UINib nibWithNibName:@"IndustriesTableViewCell" bundle:nil];
     [self.tblView registerNib:cellNib forCellReuseIdentifier:@"IndustriesTableViewCell"];
-    selectedIndex = -1;
 }
 -(void)viewWillAppear:(BOOL)animated{
-    
-    
+    [super viewWillAppear:animated];
+    selectedIndex = -1;
+    [self.tblView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self sendRequestToWeb];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(IBAction)connectsButton:(id)sender{
+   // ConnectsVC *connect =[self.storyboard instantiateViewControllerWithIdentifier:@"connects_frnds"];
+    
+    SettingsVC *connect =[self.storyboard instantiateViewControllerWithIdentifier:@"setting_view"];
+
+    [self.navigationController pushViewController:connect animated:YES];
 }
 
 #pragma mark
@@ -70,7 +92,7 @@
         cell.lblName.textColor =[UIColor blackColor];
     }
     
-    cell.lblName.text =[NSString stringWithFormat:@"%@",[arrayIndustries[indexPath.row] capitalizedString]];
+    cell.lblName.text =[NSString stringWithFormat:@"%@",[arrayIndustries[indexPath.row][@"name"] capitalizedString]];
     cell.btnRadio.tag = indexPath.row +1;
     [cell.btnRadio addTarget:self action:@selector(selectRadioButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -99,6 +121,7 @@
     selectedIndex = indexPath.row;
     [self.tblView reloadData];
     ExamViewController *exam =[self.storyboard instantiateViewControllerWithIdentifier:@"examVC"];
+    exam.dictId = [NSDictionary dictionaryWithDictionary:arrayIndustries[indexPath.row]];
     [self.navigationController pushViewController:exam animated:true];
     
 }
@@ -121,4 +144,75 @@
 //    }
     
 }
+
+#pragma mark
+#pragma mark Custom Methods
+#pragma mark
+-(void)sendRequestToWeb
+{
+    APIMaster *apimaster = [[APIMaster alloc]init];
+    apimaster.delegate = self;
+    
+    //     NSString *postStr = [NSString stringWithFormat:@"userid=%@&promiseid=%@&promise_msg=%@&promise_end_date=%@&promise_end_time=%@&promise_made_to_id=%@&categoryid=%@&categoryname=%@",[CommonMethods accessUserDefaultsWithKey:kUserId],[self.promiseInfoDict objectForKey:@"prmise_id"],self.promiseTxtView.text,date,time,[self.promiseInfoDict valueForKey:@"promise_made_to_id"],[self.promiseInfoDict objectForKey:@"promise_category"],self.categoryTxtFld.text];
+    
+    [apimaster sendRequestToWebWithInputStr:@"http://www.jtechappz.co.in/adminpanel/webservice.php?action=all_available_category"];
+    
+    //    [apimaster sendRequestToWebWithInputStr:@"http://demo.cbtcomply.com/fshubservices/api/users/6035"];
+}
+
+-(void)responseFromWeb:(id)response
+{
+    NSLog(@"response>> %@",response);
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    if ([[response objectForKey:@"status"]boolValue])
+    {
+        NSDictionary *dict = [response objectForKey:@"data"];
+        
+        if([dict isKindOfClass:[NSDictionary class]]){
+            arrayIndustries = [[NSMutableArray alloc]init];
+
+            for (int i =0; i < [dict allKeys].count; i++)
+            {
+                NSLog(@"%@",[dict objectForKey:[dict allKeys][i]]);
+                
+                
+                [arrayIndustries addObject:[dict objectForKey:[dict allKeys][i]]];
+                
+            }
+            
+            if (arrayIndustries.count > 0)
+            {
+                SingleTonClasses *data = [SingleTonClasses sharedManager];
+                data.interstArray = [[NSArray alloc]initWithArray:arrayIndustries];
+                [data saveInterestDefaults];
+
+            }
+            
+            [self.tblView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:false];
+            
+        }
+        else{
+            NSArray *arr =[response objectForKey:@"data"];
+            
+            SingleTonClasses *data = [SingleTonClasses sharedManager];
+            data.interstArray = [[NSArray alloc]initWithArray:arr];
+            [data saveInterestDefaults];
+            
+            if ([arr[0][@"Message"] isEqualToString:@"No Category Available"])
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message"
+                                                                message:arr[0][@"Message"]
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                
+                [alert show];
+            }
+
+        }
+    }
+    
+}
+
 @end

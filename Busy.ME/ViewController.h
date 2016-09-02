@@ -17,6 +17,10 @@
 }
 
 @property (strong, nonatomic) IBOutlet UIView *viewBottom;
+@property (strong, nonatomic) NSMutableArray *imgUrlArray;
+@property (strong, nonatomic) NSMutableArray *imagesArray;
+
+
 - (IBAction)LoginWithLinkedinButton:(id)sender;
 - (IBAction)LoginWithEmailButton:(id)sender;
 - (IBAction)AboutUsButtonClick:(id)sender;

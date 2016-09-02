@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface IndustriesViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>{
-    NSArray *arrayIndustries;
+    NSMutableArray *arrayIndustries;
     NSInteger selectedIndex;
 }
 
 @property (strong, nonatomic) IBOutlet UIView *viewtbl;
 @property (strong, nonatomic) IBOutlet UITableView *tblView;
-
+-(IBAction)connectsButton:(id)sender;
 @end

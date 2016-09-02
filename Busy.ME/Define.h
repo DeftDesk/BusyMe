@@ -76,6 +76,7 @@
 #define kResult           @"result"
 #define kStatus           @"status"
 #define kIsLogin          @"isLogined"
+#define kIsExam          @"isExam"
 #define kUserData         @"userdata"
 #define kLoginUserDetails @"loginUserDetails"
 #define kUserId           @"userid"
@@ -83,6 +84,7 @@
 #define kCatID            @"category_id"
 #define kProfilePic      @"ppic"// @"profile_pic"
 //#define kProfilePicLogin       @"profile_pic"
+#define kUserPosition            @"userPosition"
 
 #define kTrimTxt(str)                       [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
 

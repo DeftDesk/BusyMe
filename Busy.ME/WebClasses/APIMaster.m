@@ -9,7 +9,7 @@
 #import "APIMaster.h"
 #import "KVHTTPSessionManager.h"
 
-
+#import "MBProgressHUD.h"
 
 @implementation APIMaster
 
@@ -121,7 +121,33 @@
     
     [self.delegate responseFromWeb:response];
 }
+-(void)sendGetNewRequestToWebWithString:(NSString *)inputStr{
+    
+    NSDictionary *headers = @{ @"cache-control": @"no-cache",
+                               @"postman-token": @"45fa78e7-3082-851f-baaa-d5abc4d4c5e0" };
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[inputStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:100.0];
+    [request setHTTPMethod:@"GET"];
+    [request setAllHTTPHeaderFields:headers];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request
+                                                completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                    if (error) {
+                                                        NSLog(@"%@", error);
+                                                    } else {
+                                                        NSDictionary * json  = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                                        
+                                                        NSLog(@"data is =%@",json);
+                                                        [self performSelectorOnMainThread:@selector(responseFromWeb:) withObject:json waitUntilDone:NO];
 
+                                                    }
+                                                }];
+    [dataTask resume];
+    
+}
 -(void)sendRequestToWebWithInputStr:(NSString*)inputStr
 {
     [[AppDelegate shareDelegates]startProcessing];
@@ -183,6 +209,9 @@
         NSHTTPURLResponse *response = (NSHTTPURLResponse *) task.response;
 
         [[AppDelegate shareDelegates]stopProcessing];
+        UIViewController *view = (UIViewController*)self.delegate;
+        [MBProgressHUD hideHUDForView:view.view animated:true];
+
         if([response statusCode] == 406)
         {
             [CommonMethods showAlertWithMessage:@"Please login"];

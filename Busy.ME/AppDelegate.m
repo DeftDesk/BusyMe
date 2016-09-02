@@ -9,7 +9,8 @@
 #import "AppDelegate.h"
 #import "Define.h"
 #import "APIMaster.h"
-
+#import "ViewController.h"
+#import "IndustriesViewController.h"
 
 @interface AppDelegate ()
 {
@@ -23,10 +24,61 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self getRootNavigationController];
+
+   // [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     // Override point for customization after application launch.
+    
+  /*  UINavigationController *navcontroller=(UINavigationController*)self.window.rootViewController;
+    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    if ([[CommonMethods accessUserDefaultsWithKey:kIsLogin] isEqualToString:@"1"])
+    {
+        if ([[CommonMethods accessUserDefaultsWithKey:kIsExam] isEqualToString:@"1"])
+        {
+            UITabBarController *tabView = [storyboard instantiateViewControllerWithIdentifier:@"tab_view"];
+            navcontroller.viewControllers=@[tabView];
+
+//            [self.navigationController showViewController:tabView sender:nil];
+        }else{
+            IndustriesViewController *creat=[storyboard instantiateViewControllerWithIdentifier:@"industriesVC"];
+            navcontroller.viewControllers=@[creat];
+
+        }
+    }
+    else
+    {
+        ViewController *creat=[storyboard instantiateViewControllerWithIdentifier:@"firstView"];
+        navcontroller.viewControllers=@[creat];
+    }
+*/
+    
     return YES;
 }
+-(void)getRootNavigationController
+{
+    UINavigationController *navcontroller=(UINavigationController*)self.window.rootViewController;
+    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    if ([[CommonMethods accessUserDefaultsWithKey:kIsLogin] isEqualToString:@"1"])
+    {
+        if ([[CommonMethods accessUserDefaultsWithKey:kIsExam] isEqualToString:@"1"])
+        {
+            UITabBarController *tabView = [storyboard instantiateViewControllerWithIdentifier:@"tab_view"];
+            navcontroller.viewControllers=@[tabView];
+            
+            //            [self.navigationController showViewController:tabView sender:nil];
+        }else{
+            IndustriesViewController *creat=[storyboard instantiateViewControllerWithIdentifier:@"industriesVC"];
+            navcontroller.viewControllers=@[creat];
+            
+        }
+    }else{
+        ViewController *creat=[storyboard instantiateViewControllerWithIdentifier:@"firstView"];
+        navcontroller.viewControllers=@[creat];
+    }
 
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

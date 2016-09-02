@@ -12,4 +12,17 @@
 
 + (id)sharedManager;
 
+@property (strong, nonatomic) NSArray *contactsDict;
+@property (strong, nonatomic) NSArray *interstArray;
+
+
+-(void)saveUserDefaults;
+
+-(void)saveInterestDefaults;
+
+-(void)getUserDefaults;
+
+-(void)getInterestDefaults;
+
+
 @end

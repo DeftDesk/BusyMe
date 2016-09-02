@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="UserProfileCell">
+            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tZw-NC-MPr">
+                        <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userPlaceHolder" translatesAutoresizingMaskIntoConstraints="NO" id="aew-y2-4wn">
+                                <rect key="frame" x="5" y="5" width="80" height="80"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPo-Zo-XIa">
+                                <rect key="frame" x="66" y="0.0" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="1na-vr-WT1"/>
+                                    <constraint firstAttribute="width" constant="24" id="bOh-jw-zyM"/>
+                                </constraints>
+                                <state key="normal" image="removePhoto">
+                                    <color key="titleColor" red="0.94509803920000002" green="0.28235294119999998" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="aew-y2-4wn" secondAttribute="trailing" constant="5" id="0pU-H5-iFz"/>
+                            <constraint firstItem="VPo-Zo-XIa" firstAttribute="top" secondItem="tZw-NC-MPr" secondAttribute="top" id="7r8-pV-aTS"/>
+                            <constraint firstItem="aew-y2-4wn" firstAttribute="leading" secondItem="tZw-NC-MPr" secondAttribute="leading" constant="5" id="B63-6h-zLw"/>
+                            <constraint firstAttribute="bottom" secondItem="aew-y2-4wn" secondAttribute="bottom" constant="5" id="P9q-aY-bSQ"/>
+                            <constraint firstItem="aew-y2-4wn" firstAttribute="top" secondItem="tZw-NC-MPr" secondAttribute="top" constant="5" id="fhB-5w-LqS"/>
+                            <constraint firstAttribute="trailing" secondItem="VPo-Zo-XIa" secondAttribute="trailing" id="wkZ-VF-jtI"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="tZw-NC-MPr" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="DR4-8D-ovl"/>
+                <constraint firstAttribute="trailing" secondItem="tZw-NC-MPr" secondAttribute="trailing" id="HRR-xo-4od"/>
+                <constraint firstAttribute="bottom" secondItem="tZw-NC-MPr" secondAttribute="bottom" id="JUK-Zg-ZAR"/>
+                <constraint firstItem="tZw-NC-MPr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="bIr-pV-AcF"/>
+            </constraints>
+            <size key="customSize" width="90" height="90"/>
+            <connections>
+                <outlet property="btnCross" destination="VPo-Zo-XIa" id="tvA-zB-8i0"/>
+                <outlet property="userUploadImg" destination="aew-y2-4wn" id="4uU-gG-YjP"/>
+            </connections>
+            <point key="canvasLocation" x="157" y="188"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="removePhoto" width="24" height="24"/>
+        <image name="userPlaceHolder" width="518" height="518"/>
+    </resources>
+</document>

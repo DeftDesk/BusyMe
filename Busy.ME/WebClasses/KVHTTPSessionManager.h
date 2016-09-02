@@ -8,7 +8,7 @@
 
 #import "AFHTTPSessionManager.h"
 
-#define BaseURL  @"http://pinkypromise.smallarmydev.net/webservices"//@"http://pinkypromise.smallarmydev.net/webservices"
+#define BaseURL  @"http://www.jtechappz.co.in/adminpanel/webservice.php"
 
 @interface KVHTTPSessionManager : AFHTTPSessionManager
 

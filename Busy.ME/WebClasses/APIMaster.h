@@ -29,7 +29,7 @@
 -(void)sendRequestToWebWithActionName:(NSString*)actionName andDict:(NSString*)dict;
 -(void)sendRequestToWebWithInputStr:(NSString*)inputStr;
 - (void)sendImageToServerWithDict:(NSMutableDictionary*)dict andActionName:(NSString*)actionName andImgParameterName:(NSString*)imgParam andImgData:(NSData*)imgData;
-
+-(void)sendGetNewRequestToWebWithString:(NSString *)inputStr;
 @property(nonatomic, strong)id<APIMasterDelegate>delegate;
 
 @end

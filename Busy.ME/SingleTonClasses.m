@@ -21,4 +21,22 @@ static SingleTonClasses *sharedManager = nil;
     return sharedManager;
 }
 
+-(void)saveUserDefaults {
+    [[NSUserDefaults standardUserDefaults]setObject:self.contactsDict forKey:@"contactsDict"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
+-(void)getUserDefaults {
+    self.contactsDict = [[NSUserDefaults standardUserDefaults]objectForKey:@"contactsDict"];
+}
+
+-(void)saveInterestDefaults{
+    [[NSUserDefaults standardUserDefaults]setObject:self.interstArray forKey:@"interestArray"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+}
+
+-(void)getInterestDefaults
+{
+    self.interstArray = [[NSUserDefaults standardUserDefaults]objectForKey:@"interestArray"];
+}
 @end

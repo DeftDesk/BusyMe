@@ -13,6 +13,8 @@
 @property (strong, nonatomic) UIWindow *window;
 
 +(AppDelegate*)shareDelegates;
+-(void)getRootNavigationController;
+
 -(void)startProcessing;
 -(void)stopProcessing;
 
